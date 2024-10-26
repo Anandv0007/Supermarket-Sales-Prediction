@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predict Sales</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/form_styles.css') }}">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Predict Sales</h1>
+
+        <form action="{{ url_for('predict_sales') }}" method="POST" class="form-card">
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input type="date" class="form-control" id="date" name="date" min="{{ current_date }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="item_id">Item Identifier</label>
+                <input type="text" class="form-control" id="item_id" name="item_id" placeholder="Enter Item Identifier" required>
+            </div>
+
+            <div class="form-group">
+                <label for="item_weight">Item Weight</label>
+                <input type="number" class="form-control" step="0.000001" id="item_weight" name="item_weight" placeholder="Enter Item Weight" required>
+            </div>
+
+            <div class="form-group">
+                <label for="item_fat_content">Item Fat Content</label>
+                <select class="form-control" id="item_fat_content" name="item_fat_content" required>
+                    <option value="Low Fat">Low Fat</option>
+                    <option value="Regular">Regular</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="item_visibility">Item Visibility</label>
+                <input type="number" class="form-control" step="0.000001" id="item_visibility" name="item_visibility" placeholder="Enter Item Visibility" required>
+            </div>
+
+            <div class="form-group">
+                <label for="item_type">Item Type</label>
+                <!-- <input type="text" class="form-control" id="item_type" name="item_type" placeholder="Enter Item Type" required> -->
+                <select class="form-control" id="item_type" name="item_type" required>
+                    <option value="">-- Select Item Type --</option>
+                    {% for item_name, item_value in item_type_mapping.items() %}
+                        <option value="{{ item_value }}">{{ item_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="item_mrp">Item MRP</label>
+                <input type="number" step="0.000001" class="form-control" id="item_mrp" name="item_mrp" placeholder="Enter Item MRP" required>
+            </div>
+
+            <div class="form-group">
+                <label for="outlet_id">Outlet Identifier</label>
+                <input type="text" class="form-control" id="outlet_id" name="outlet_id" value="{{ manager_outlet_id }}" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="outlet_year">Outlet Establishment Year</label>
+                <input type="text" class="form-control" id="outlet_year" name="outlet_year" value="{{ outlet_year }}" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="outlet_size">Outlet Size</label>
+                <input type="text" class="form-control" id="outlet_size" name="outlet_size" value="{{ outlet_size }}" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="outlet_location_type">Outlet Location Type</label>
+                <input type="text" class="form-control" id="outlet_location_type" name="outlet_location_type" value="{{ outlet_location_type }}" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="outlet_type">Outlet Type</label>
+                <input type="text" class="form-control" id="outlet_type" name="outlet_type" value="{{ outlet_type }}" readonly>
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-block">Predict Sales</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

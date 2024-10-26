@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salesperson Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <h1>Welcome, {{ salesperson_name }}!</h1>
+        <div class="card-container">
+            <div class="card">
+                <h2>Promotion List</h2>
+                <p>Check the items to promote in your outlet.</p>
+                <a href="{{ url_for('promotion_list') }}">Promotion List</a>
+            </div>
+
+            <div class="card">
+                <h2>Logout</h2>
+                <p>End your session and logout.</p>
+                <a href="{{ url_for('logout') }}">Logout</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/result_styles.css') }}">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="card result-card shadow-lg">
+                    <div class="card-header text-center">
+                        <h2>Sales Prediction Result</h2>
+                    </div>
+                    <div class="card-body">
+                        <!-- <h4 class="text-center">Prediction for <strong>{{ item_name }}</strong></h4>
+                        <p class="lead text-center">Outlet: <strong>{{ outlet_name }}</strong></p> -->
+
+                        <div class="result-box text-center mt-4 mb-4">
+                            <h3>Predicted Sales</h3>
+                            <p class="predicted-value">{{ predicted_sales }} units</p>
+                        </div>
+
+                        <!-- <p class="text-center">
+                            <strong>Date:</strong> {{ prediction_date }}
+                        </p> -->
+
+                        <p class="text-center">
+                            <strong>Item MRP:</strong> ₹ {{ item_mrp }}
+                        </p>
+
+                        <div class="text-center mt-4">
+                            <a href="{{ url_for('predict_sales') }}" class="btn btn-primary">Make Another Prediction</a>
+                        </div>
+                    </div>
+                    <div class="card-footer text-muted text-center">
+                        Powered by <strong>SalesPredictor</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
