@@ -402,27 +402,57 @@ def prediction():
 #     # Render the promotion list with the filtered data
 #     return render_template('promotion_list.html', promotions=promotion_data)
 
+# @app.route('/promotion_list')
+# def promotion_list():
+#     # Ensure the user is logged in
+#     if 'username' not in session:
+#         return redirect(url_for('login'))
+
+#     # Fetch all sales with predicted sales value less than 200
+#     promotion_sales = db.session.query(Sale).filter(Sale.sales < 200).all()
+
+#     # Create a list of dictionaries to hold the sales data
+#     promotion_data = []
+#     for sale in promotion_sales:
+#         # Prepare promotion data (item id, predicted sales, and prediction date)
+#         promotion_data.append({
+#             'item_id': sale.item_id,
+#             'predicted_sales': sale.sales,
+#             'prediction_date': sale.date
+#         })
+
+#     # Render the promotion list with the filtered data
+#     return render_template('promotion_list.html', promotions=promotion_data)
+
 @app.route('/promotion_list')
 def promotion_list():
     # Ensure the user is logged in
     if 'username' not in session:
         return redirect(url_for('login'))
 
-    # Fetch all sales with predicted sales value less than 200
-    promotion_sales = db.session.query(Sale).filter(Sale.sales < 200).all()
+    # Get the outlet_id associated with the logged-in user
+    current_user = db.session.query(Member).filter_by(username=session['username']).first()
+    outlet_id = current_user.outlet_id if current_user else None
+
+    # Fetch all sales with predicted sales value less than 1000 for the manager's outlet
+    promotion_sales = db.session.query(Sale).filter(
+        Sale.sales < 1000,
+        Sale.outlet_id == outlet_id
+    ).all()
 
     # Create a list of dictionaries to hold the sales data
-    promotion_data = []
-    for sale in promotion_sales:
-        # Prepare promotion data (item id, predicted sales, and prediction date)
-        promotion_data.append({
+    promotion_data = [
+        {
             'item_id': sale.item_id,
             'predicted_sales': sale.sales,
             'prediction_date': sale.date
-        })
+        }
+        for sale in promotion_sales
+    ]
 
     # Render the promotion list with the filtered data
     return render_template('promotion_list.html', promotions=promotion_data)
+
 
 @app.route('/salesperson_dashboard')
 def salesperson_dashboard():
