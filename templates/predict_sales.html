@@ -10,6 +10,8 @@
 <body>
     <div class="container mt-5">
         <h1 class="text-center mb-4">Predict Sales</h1>
+        <center><a href="{{ url_for('logout') }}" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px; font-weight: bold;">Logout</a></center> 
+       <br>
 
         <form action="{{ url_for('predict_sales') }}" method="POST" class="form-card">
             <div class="form-group">

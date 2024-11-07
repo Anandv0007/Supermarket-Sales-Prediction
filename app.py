@@ -295,40 +295,84 @@ def predict_sales():
     return redirect(url_for('login'))  # Redirect to login if not authenticated
     
 
-@app.route('/result', methods=['GET','POST'])
-def prediction():
+# @app.route('/result', methods=['GET','POST'])
+# def prediction():
     
+#     item_weight = request.args.get('item_weight')
+#     item_fat= request.args.get('item_fat_content')
+#     item_visibility = request.args.get('item_visibility')
+#     item_type = request.args.get('item_type')
+#     item_mrp = request.args.get('item_mrp')
+#     # outlet_id = request.args.get('outlet_id')
+#     outlet_est_year = request.args.get('outlet_year')
+#     outlet_size = request.args.get('outlet_size')
+#     outlet_location_type = request.args.get('outlet_location_type')
+#     outlet_type = request.args.get('outlet_type')
+    
+#     item_fat = fat_mapping.get(item_fat)
+#     item_type = item_type_mapping.get(item_type)
+#     outlet_size = outlet_size_mapping.get(outlet_size)
+#     outlet_location_type = outlet_location_type_mapping.get(outlet_location_type)
+#     outlet_type = outlet_type_mapping.get(outlet_type)
+
+#     model_input = [[item_weight,item_fat,item_visibility,item_type,item_mrp,outlet_est_year,outlet_size,outlet_location_type,outlet_type]]
+
+#     prediction = model.predict(model_input)
+#     rounded_prediction = round(prediction[0],2)
+
+#     item_id = request.args.get('item_id')
+#     pred_date = date.today()
+#     outlet_id = request.args.get('outlet_id')
+#     new_sales = Sale(item_id=item_id,outlet_id=outlet_id,date=pred_date,sales=rounded_prediction)
+
+#     db.session.add(new_sales)
+#     db.session.commit()
+
+#     return render_template('result.html',  predicted_sales=rounded_prediction, item_mrp=item_mrp)
+
+
+@app.route('/result', methods=['GET', 'POST'])
+def prediction():
     item_weight = request.args.get('item_weight')
-    item_fat= request.args.get('item_fat_content')
+    item_fat = request.args.get('item_fat_content')
     item_visibility = request.args.get('item_visibility')
     item_type = request.args.get('item_type')
     item_mrp = request.args.get('item_mrp')
-    # outlet_id = request.args.get('outlet_id')
     outlet_est_year = request.args.get('outlet_year')
     outlet_size = request.args.get('outlet_size')
     outlet_location_type = request.args.get('outlet_location_type')
     outlet_type = request.args.get('outlet_type')
-    
+
+    # Mapping input values
     item_fat = fat_mapping.get(item_fat)
     item_type = item_type_mapping.get(item_type)
     outlet_size = outlet_size_mapping.get(outlet_size)
     outlet_location_type = outlet_location_type_mapping.get(outlet_location_type)
     outlet_type = outlet_type_mapping.get(outlet_type)
 
-    model_input = [[item_weight,item_fat,item_visibility,item_type,item_mrp,outlet_est_year,outlet_size,outlet_location_type,outlet_type]]
+    # Preparing the input for the model
+    model_input = [[item_weight, item_fat, item_visibility, item_type, item_mrp, outlet_est_year, outlet_size, outlet_location_type, outlet_type]]
 
+    # Get prediction from model
     prediction = model.predict(model_input)
-    rounded_prediction = round(prediction[0],2)
+    rounded_prediction = round(prediction[0], 2)
 
+    # If prediction is negative, set it to zero
+    if rounded_prediction < 0:
+        rounded_prediction = 0
+
+    # Store prediction in the database
     item_id = request.args.get('item_id')
     pred_date = date.today()
     outlet_id = request.args.get('outlet_id')
-    new_sales = Sale(item_id=item_id,outlet_id=outlet_id,date=pred_date,sales=rounded_prediction)
+    new_sales = Sale(item_id=item_id, outlet_id=outlet_id, date=pred_date, sales=rounded_prediction)
 
     db.session.add(new_sales)
     db.session.commit()
 
-    return render_template('result.html',  predicted_sales=rounded_prediction, item_mrp=item_mrp)
+    # Render result
+    return render_template('result.html', predicted_sales=rounded_prediction, item_mrp=item_mrp)
+
 
 # @app.route('/promotion_list')
 # def promotion_list():
@@ -409,7 +453,7 @@ def promotion_list_salesperson():
         outlet_id = salesperson.outlet_id
 
         # Fetch all sales for this outlet with predicted sales value less than 200 (for promotion)
-        promotion_sales = Sale.query.filter(Sale.outlet_id == outlet_id, Sale.sales < 200).all()
+        promotion_sales = Sale.query.filter(Sale.outlet_id == outlet_id, Sale.sales < 1000).all()
 
         # Prepare the promotion data
         promotion_data = []

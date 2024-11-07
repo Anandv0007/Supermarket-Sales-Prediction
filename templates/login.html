@@ -16,6 +16,9 @@
     <div class="login-container">
         <div class="login-box">
             <h2>Login</h2>
+            <!-- <center><a href="{{ url_for('home') }}" style="background-color: #007bff;">Back to Home</a></center>
+            <br> -->
+            
             <form action="/login" method="POST">
                 <div class="form-group">
                     <label for="username">Username</label>
@@ -27,6 +30,9 @@
                 </div>
                 <button type="submit" class="btn login-btn">Login</button>
                 <small class="form-text text-muted">Don't have an account? Contact your manager.</small>
+                <br>
+                <center><a href="{{ url_for('home') }}" style="background-color: #007bff;">Back to Home</a></center>
+            
             </form>
         </div>
     </div>

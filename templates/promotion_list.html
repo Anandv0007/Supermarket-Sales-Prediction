@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Promotion List</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/promotionStyle.css') }}">
 </head>
 <body>
     <h1>Promotion List</h1>
+    <center><a href="{{ url_for('logout') }}" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px; font-weight: bold;">Logout</a></center> 
+       <br>
 
     {% if promotions %}
         <table>
@@ -32,6 +34,6 @@
         <p>No promotions available at the moment.</p>
     {% endif %}
 
-   <center><a href="{{ url_for('home') }}">Back to Home</a></center> 
+   <!-- <center><a href="{{ url_for('home') }}">Back to Home</a></center>  -->
 </body>
 </html>
